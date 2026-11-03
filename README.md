@@ -17,36 +17,31 @@ desde el inicio, separación de entornos y buenas prácticas al trabajar con age
 
 ## Requisitos
 
-- Claude Code instalado.
-- Git, para clonar el repositorio.
+- Node.js 18 o superior (para `npx`).
+- Un agente compatible con skills: Claude Code, Codex, Cursor, OpenCode y
+  [muchos más](https://github.com/vercel-labs/skills/blob/main/docs/agents.md).
 
 ## Instalación
 
-Clona el repositorio:
-
 ```bash
-git clone https://github.com/CodeIA-Academy/codeia-init-project.git
-cd codeia-init-project
+npx skills add CodeIA-Academy/codeia-init-project
 ```
 
-Elige una de estas dos opciones.
+El instalador te pregunta en qué agentes quieres instalarla y si la quieres para el proyecto actual o
+para todos tus proyectos. No hace falta clonar nada.
 
-### Para todos tus proyectos (global)
-
-```bash
-mkdir -p ~/.claude/skills
-cp -R skills/init-project ~/.claude/skills/
-```
-
-### Solo para un proyecto
+Si prefieres indicarlo directamente:
 
 ```bash
-mkdir -p /ruta/a/tu-proyecto/.claude/skills
-cp -R skills/init-project /ruta/a/tu-proyecto/.claude/skills/
+# Solo en Claude Code, para todos tus proyectos
+npx skills add CodeIA-Academy/codeia-init-project -a claude-code -g
+
+# En varios agentes, solo para el proyecto actual
+npx skills add CodeIA-Academy/codeia-init-project -a claude-code -a codex -a cursor
 ```
 
-Abre una sesión nueva de Claude Code para que cargue la skill. Comprueba que aparece escribiendo
-`/init-project` en el prompt.
+Abre una sesión nueva del agente para que cargue la skill. En Claude Code, comprueba que aparece
+escribiendo `/init-project` en el prompt.
 
 ## Uso
 
@@ -75,15 +70,14 @@ tienes instalada, responde que no y la skill dejará registrado el flujo Git que
 ## Actualizar
 
 ```bash
-cd codeia-init-project
-git pull
-cp -R skills/init-project ~/.claude/skills/   # o la ruta del proyecto
+npx skills check            # comprueba si hay versión nueva
+npx skills update init-project
 ```
 
 ## Desinstalar
 
 ```bash
-rm -rf ~/.claude/skills/init-project
+npx skills remove init-project
 ```
 
 ## Estructura
