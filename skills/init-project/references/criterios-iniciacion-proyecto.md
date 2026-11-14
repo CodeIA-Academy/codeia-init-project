@@ -26,6 +26,8 @@ en lugar de preguntar en blanco.
 
 ### 1.1 Stack
 - Frontend, backend, runtime, gestor de paquetes, base de datos y ORM.
+- Gestor de paquetes según la regla 2.15: en JavaScript o TypeScript se pregunta **Bun o pnpm**
+  (npm nunca es una opción); en otros lenguajes se propone el gestor de 2.15 y se confirma.
 - ¿Monorepo o repositorio simple? ¿Hay app móvil o se prevé?
 - Con el stack confirmado, se proponen las buenas prácticas que aplican y se registran en la capa
   «Stack» del `CLAUDE.md`. Se irán ampliando con la experiencia del proyecto.
@@ -122,7 +124,13 @@ Objetivo: **WCAG 2.2 nivel AA**. Una pantalla no se da por terminada sin cumplir
 - **Foco visible** en todo elemento interactivo (`:focus-visible` con contraste suficiente); nunca
   `outline: none` sin sustituto.
 - **Estados** hover, focus, active y disabled definidos en botones, enlaces, campos y controles.
-- **Cursor** `pointer` en todo lo clicable; `not-allowed` en lo deshabilitado.
+- **Cursor** `pointer` en todo lo clicable, sin excepciones: enlaces, botones, disparadores y
+  elementos de menús desplegables, pestañas, filas o tarjetas clicables, interruptores, casillas y
+  opciones de selects. `not-allowed` en lo deshabilitado. Muchas librerías de componentes (Base UI,
+  Radix, shadcn) dejan el cursor por defecto en los elementos de menú: se corrige una sola vez en el
+  componente base (por ejemplo `cursor-pointer` en `DropdownMenuItem`), no en cada uso. Se
+  comprueba pasando el ratón por cada elemento interactivo nuevo antes de dar la pantalla por
+  terminada.
 - **Contraste** mínimo 4.5:1 en texto normal y 3:1 en texto grande e iconos funcionales.
 - **Teclado**: todo se puede usar sin ratón, en un orden lógico; los modales atrapan el foco, se
   cierran con Escape y devuelven el foco al elemento que los abrió.
@@ -211,6 +219,43 @@ Se concreta con las respuestas de 1.3. Mínimos comunes:
 - Los agentes nunca hacen push, merge ni despliegue si no se les encargó expresamente.
 
 ---
+
+### 2.14 Navegación y URLs
+- **Toda vista navegable tiene su propia URL**: pestañas, subsecciones, pasos de un asistente,
+  filtros y paginación de listados. Al cambiar de pestaña se actualiza la URL (ruta o parámetro de
+  búsqueda) sin recargar la página, y al abrir esa URL directamente se llega a esa misma pestaña.
+- **URLs amigables**: en minúsculas, con palabras separadas por guiones y en el idioma de la
+  interfaz (`/admin/configuracion/correo`, `?pestana=datos`), nunca con índices numéricos ni
+  identificadores internos (`?tab=2`, `#panel-3`).
+- Las URLs funcionan con los botones de atrás y adelante del navegador, se pueden compartir y
+  guardar en favoritos, y una pestaña inexistente en la URL lleva a la pestaña por defecto sin error.
+- En proyectos multiidioma (2.9), el segmento de la pestaña se traduce con el resto de la ruta de
+  cada idioma (`/admin/settings/email` en inglés).
+- Excepción: las pestañas de idioma dentro de un formulario de edición (por ejemplo ES/EN de un
+  mismo contenido) no cambian la URL, porque no son vistas distintas sino campos del mismo
+  formulario.
+
+### 2.15 Gestores de paquetes
+- **npm está prohibido**: ni `npm install`, ni `npm run`, ni `npx`, ni `package-lock.json`, tampoco
+  en documentación, scripts, CI ni Dockerfile.
+- **JavaScript y TypeScript**: se pregunta al usuario entre:
+  - **Bun** (recomendado cuando el stack lo admite): Next.js, Vite, React, Astro, Hono, Elysia,
+    Express, NestJS y la mayoría de proyectos web. Bun se usa como gestor de paquetes y para
+    ejecutar scripts aunque el runtime de producción siga siendo Node; cambiar también el runtime a
+    Bun es una decisión aparte que se pregunta.
+  - **pnpm**: cuando alguna pieza no se lleva bien con Bun (dependencias con módulos nativos que
+    fallan al instalarse, herramientas que exigen el ciclo de vida de npm, plataformas de
+    despliegue o CI sin soporte para Bun) o si el usuario lo prefiere.
+  - Si hay dudas de compatibilidad, se comprueba con la documentación actual del framework antes
+    de recomendar, y se explica el motivo en la pregunta.
+- Equivalencias: `npx` pasa a `bunx` o `pnpm dlx`; `npm run x` pasa a `bun run x` o `pnpm x`.
+- Un solo gestor y un solo lockfile por repositorio (`bun.lock` o `pnpm-lock.yaml`), declarado en
+  el campo `packageManager` de `package.json`, y el mismo en local, CI, Dockerfile y documentación.
+- **Otros lenguajes** (Bun no aplica): Rust con `cargo`, Python con `uv` (nunca `pip` directo ni
+  sin entorno virtual), Go con módulos de Go, PHP con `composer`, Ruby con `bundler`.
+- **Proyecto existente con npm**: se propone migrar (borrar `package-lock.json`, instalar con el
+  gestor elegido, actualizar scripts, CI, Dockerfile y documentación) y se pregunta antes de hacerlo;
+  nunca se migra en silencio a mitad de otra tarea.
 
 ## 3. Plantilla del `CLAUDE.md` del proyecto
 

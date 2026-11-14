@@ -5,7 +5,8 @@ description: >-
   (stack, componentes de interfaz, entornos y base de datos, idiomas, puertos, sesión,
   observabilidad, despliegue y flujo Git), aplica las reglas universales (puertos fijos, sin
   diálogos nativos, sin emoticonos ni borde lateral de acento, accesibilidad WCAG 2.2 AA
-  verificable, manejo de errores, fechas en UTC, multiidioma, trabajo con agentes) y, tras la
+  verificable, manejo de errores, fechas en UTC, multiidioma, trabajo con agentes, URLs propias
+  y amigables para cada pestaña, nunca npm: Bun o pnpm) y, tras la
   confirmación del usuario, guarda todo en el CLAUDE.md del proyecto en curso. Úsala cuando el
   usuario escriba /init-project o pida iniciar, configurar o incorporar un proyecto con los
   criterios de Codeia, o actualizar las decisiones de arranque ya guardadas.

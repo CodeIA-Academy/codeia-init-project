@@ -12,19 +12,23 @@ Skill para [Claude Code](https://docs.claude.com/en/docs/claude-code) que arranc
 
 Las reglas nacen de errores reales en proyectos de Codeia: puertos fijos por proyecto, nada de
 diálogos nativos del navegador ni `<select>` antiguos, sin emoticonos ni bordes laterales de acento,
-accesibilidad WCAG 2.2 AA comprobable, manejo de errores con detalle, fechas en UTC, multiidioma
-desde el inicio, separación de entornos y buenas prácticas al trabajar con agentes.
+accesibilidad WCAG 2.2 AA comprobable (cursor de mano en todo lo clicable), manejo de errores con
+detalle, fechas en UTC, multiidioma desde el inicio, separación de entornos, buenas prácticas al
+trabajar con agentes, URLs propias y amigables para cada pestaña, y nunca npm: Bun o pnpm.
 
 ## Requisitos
 
-- Node.js 18 o superior (para `npx`).
+- [Bun](https://bun.sh) (para `bunx`) o [pnpm](https://pnpm.io) (para `pnpm dlx`). Siguiendo los
+  propios criterios de la skill, no se usa npm.
 - Un agente compatible con skills: Claude Code, Codex, Cursor, OpenCode y
   [muchos más](https://github.com/vercel-labs/skills/blob/main/docs/agents.md).
 
 ## Instalación
 
 ```bash
-npx skills add CodeIA-Academy/codeia-init-project
+bunx skills add CodeIA-Academy/codeia-init-project
+# o con pnpm
+pnpm dlx skills add CodeIA-Academy/codeia-init-project
 ```
 
 El instalador te pregunta en qué agentes quieres instalarla y si la quieres para el proyecto actual o
@@ -34,10 +38,10 @@ Si prefieres indicarlo directamente:
 
 ```bash
 # Solo en Claude Code, para todos tus proyectos
-npx skills add CodeIA-Academy/codeia-init-project -a claude-code -g
+bunx skills add CodeIA-Academy/codeia-init-project -a claude-code -g
 
 # En varios agentes, solo para el proyecto actual
-npx skills add CodeIA-Academy/codeia-init-project -a claude-code -a codex -a cursor
+bunx skills add CodeIA-Academy/codeia-init-project -a claude-code -a codex -a cursor
 ```
 
 Abre una sesión nueva del agente para que cargue la skill. En Claude Code, comprueba que aparece
@@ -70,14 +74,14 @@ tienes instalada, responde que no y la skill dejará registrado el flujo Git que
 ## Actualizar
 
 ```bash
-npx skills check            # comprueba si hay versión nueva
-npx skills update init-project
+bunx skills check            # comprueba si hay versión nueva
+bunx skills update init-project
 ```
 
 ## Desinstalar
 
 ```bash
-npx skills remove init-project
+bunx skills remove init-project
 ```
 
 ## Estructura
